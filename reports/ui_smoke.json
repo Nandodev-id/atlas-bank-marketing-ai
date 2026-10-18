@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "tabs": [
+    "Simuler un profil",
+    "R\u00e9sultats de l\u2019\u00e9tude",
+    "Suivi du service"
+  ],
+  "interactions": [
+    "form render",
+    "prediction",
+    "feedback",
+    "monitoring refresh"
+  ],
+  "method": "Streamlit AppTest plus real FastAPI TestClient bridge; no browser/socket",
+  "synthetic_feedback": true
+}
