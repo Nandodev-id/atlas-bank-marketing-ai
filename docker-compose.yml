@@ -1,0 +1,43 @@
+services:
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      ATLAS_ENV: production
+      ATLAS_API_KEY: ${ATLAS_API_KEY:?Set a secret API key in your environment}
+    volumes:
+      - audit:/app/runtime
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 2g
+    cpus: 2
+  ui:
+    build:
+      context: .
+      dockerfile: ui/Dockerfile
+    ports:
+      - "127.0.0.1:8501:8501"
+    environment:
+      ATLAS_API_URL: http://api:8000
+      ATLAS_API_KEY: ${ATLAS_API_KEY:?Set a secret API key in your environment}
+    depends_on:
+      api:
+        condition: service_healthy
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 1g
+    cpus: 1
+
+volumes:
+  audit:

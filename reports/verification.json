@@ -1,0 +1,61 @@
+{
+  "tests": {
+    "passed": 30,
+    "failures": 0
+  },
+  "notebooks": {
+    "certification": {
+      "code_cells_executed": 21,
+      "errors": 0,
+      "method": "IPython in-process, sequential, fresh namespace",
+      "reason": "Sandbox blocks socket binding required for an external Jupyter kernel"
+    },
+    "exploration": {
+      "code_cells_executed": 9,
+      "errors": 0,
+      "method": "IPython in-process, sequential, fresh namespace",
+      "reason": "Sandbox blocks socket binding required for an external Jupyter kernel"
+    }
+  },
+  "api": {
+    "requests": 100,
+    "p50_ms": 4.135520999625442,
+    "p95_ms": 4.722966648841975,
+    "errors": 0,
+    "method": "In-process ASGI TestClient, sequential, not network/load performance",
+    "synthetic_feedback": true
+  },
+  "ui": {
+    "status": "passed",
+    "tabs": [
+      "Simuler un profil",
+      "Résultats de l’étude",
+      "Suivi du service"
+    ],
+    "interactions": [
+      "form render",
+      "prediction",
+      "feedback",
+      "monitoring refresh"
+    ],
+    "method": "Streamlit AppTest plus real FastAPI TestClient bridge; no browser/socket",
+    "synthetic_feedback": true
+  },
+  "production_gate": {
+    "result": "correctly blocked",
+    "exit_code": 1,
+    "reason": "Blocked by production review: {'validation_beats_prior': False, 'coverage_at_least_80_percent': False, 'subgroup_error_gaps_under_20_points': False}"
+  },
+  "syntax": "compileall passed; YAML parsed; shell syntax checked",
+  "docker": "not executed: Docker socket access denied",
+  "external_jupyter_kernel": "blocked: socket binding prohibited; IPython fallback executed all cells",
+  "live_http_browser": "not executed; ASGI TestClient and Streamlit AppTest used",
+  "remote_ci": "workflow supplied; not pushed or executed on GitHub",
+  "deployment": "not executed; no host configured and production gates fail",
+  "api_demo_branches": {
+    "high_score": "yes, no abstention",
+    "low_score": "no, no abstention",
+    "out_of_domain": "abstention, no probability",
+    "source": "training examples, not evaluation"
+  }
+}

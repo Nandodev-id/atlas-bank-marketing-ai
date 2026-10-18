@@ -1,0 +1,16 @@
+{
+  "coverage": 0.0,
+  "subgroup_gaps": {
+    "fpr": 0.5369682604784382,
+    "fnr": 0.3332467982000693,
+    "selection_rate": 0.5251282593748348
+  },
+  "checks": {
+    "validation_beats_prior": false,
+    "coverage_at_least_80_percent": false,
+    "subgroup_error_gaps_under_20_points": false
+  },
+  "production_gate_passed": false,
+  "thresholds": "Educational review gates, not statutory fairness standards. Human approval still required.",
+  "recommendation": "do_not_deploy"
+}

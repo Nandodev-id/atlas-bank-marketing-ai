@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Atlas: API",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "bank_marketing.service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "env": {
+        "ATLAS_HOST": "127.0.0.1",
+        "ATLAS_PORT": "8000"
+      },
+      "justMyCode": true
+    },
+    {
+      "name": "Atlas: interface",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "streamlit",
+      "args": ["run", "ui/app.py", "--server.address", "127.0.0.1", "--server.port", "8501"],
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "env": {
+        "ATLAS_API_URL": "http://127.0.0.1:8000"
+      },
+      "justMyCode": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Atlas: API + interface",
+      "configurations": ["Atlas: API", "Atlas: interface"],
+      "stopAll": true
+    }
+  ]
+}

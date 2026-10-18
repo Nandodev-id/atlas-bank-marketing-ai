@@ -1,0 +1,93 @@
+name: Train, evaluate and gate a candidate
+on:
+  workflow_dispatch:
+    inputs:
+      dataset_url:
+        description: 'Approved HTTPS URL of a new semicolon CSV; never a URL containing credentials'
+        required: true
+        type: string
+      dataset_sha256:
+        description: 'SHA-256 approved by data owner'
+        required: true
+        type: string
+  schedule:
+    - cron: '0 5 * * 1'
+permissions:
+  contents: read
+jobs:
+  candidate:
+    if: github.event_name == 'workflow_dispatch' || vars.ATLAS_DATASET_URL != ''
+    runs-on: ubuntu-latest
+    env:
+      DATASET_URL: ${{ inputs.dataset_url || vars.ATLAS_DATASET_URL }}
+      DATASET_SHA256: ${{ inputs.dataset_sha256 || vars.ATLAS_DATASET_SHA256 }}
+      MPLCONFIGDIR: /tmp/atlas-mpl
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements-runtime.txt && pip install -e '.[dev]'
+      - name: Download approved snapshot without shell interpolation
+        run: |
+          python - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          from urllib.request import urlopen
+          url=os.environ['DATASET_URL']
+          assert url.startswith('https://')
+          with urlopen(url,timeout=60) as response: data=response.read()
+          digest=hashlib.sha256(data).hexdigest()
+          assert digest==os.environ['DATASET_SHA256']
+          assert digest!=Path('data/raw/DATASET.sha256').read_text().split()[0], 'New data required'
+          Path('data/raw').mkdir(parents=True,exist_ok=True)
+          Path('data/raw/candidate.csv').write_bytes(data)
+          PY
+      - run: pytest -q
+      - name: Train candidate without overwriting certification evidence
+        run: python -m bank_marketing.modeling.train --data data/raw/candidate.csv --output runtime/candidate/reports --artifacts runtime/candidate/artifacts
+      - name: Build production decision for new snapshot
+        run: python scripts/evaluate_candidate.py --root runtime/candidate --data data/raw/candidate.csv
+      - name: Compare with approved champion on a common independent window
+        if: vars.ATLAS_CHAMPION_URL != '' && vars.ATLAS_EVALUATION_URL != ''
+        env:
+          CHAMPION_URL: ${{ vars.ATLAS_CHAMPION_URL }}
+          CHAMPION_SHA256: ${{ vars.ATLAS_CHAMPION_SHA256 }}
+          EVALUATION_URL: ${{ vars.ATLAS_EVALUATION_URL }}
+          EVALUATION_SHA256: ${{ vars.ATLAS_EVALUATION_SHA256 }}
+        run: |
+          python scripts/prepare_comparison.py
+          python scripts/compare_challenger.py --champion runtime/comparison/champion --challenger runtime/candidate/artifacts --data runtime/comparison/evaluation.csv --output runtime/candidate/reports/champion_challenger.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: candidate-evidence
+          path: |
+            runtime/candidate
+            mlruns
+      - name: Enforce release gates
+        run: python scripts/check_release.py --reports runtime/candidate/reports --production
+  deploy:
+    needs: candidate
+    if: vars.ATLAS_DEPLOY_HOST != '' && vars.ATLAS_CHAMPION_URL != '' && vars.ATLAS_EVALUATION_URL != ''
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: candidate-evidence
+          path: downloaded
+      - name: Prepare validated candidate
+        run: |
+          cp -R downloaded/runtime/candidate/artifacts ./artifacts
+          cp downloaded/runtime/candidate/reports/selection.json reports/selection.json
+      - name: Build immutable image
+        run: docker build -t atlas-bank-marketing:${{ github.sha }} . && docker save atlas-bank-marketing:${{ github.sha }} -o image.tar
+      - name: Ship to approved host
+        env:
+          DEPLOY_HOST: ${{ vars.ATLAS_DEPLOY_HOST }}
+          DEPLOY_USER: ${{ vars.ATLAS_DEPLOY_USER }}
+          SSH_KEY: ${{ secrets.ATLAS_DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.ATLAS_DEPLOY_KNOWN_HOSTS }}
+        run: python scripts/deploy.py
