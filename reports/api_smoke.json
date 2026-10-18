@@ -1,0 +1,8 @@
+{
+  "requests": 100,
+  "p50_ms": 4.135520999625442,
+  "p95_ms": 4.722966648841975,
+  "errors": 0,
+  "method": "In-process ASGI TestClient, sequential, not network/load performance",
+  "synthetic_feedback": true
+}

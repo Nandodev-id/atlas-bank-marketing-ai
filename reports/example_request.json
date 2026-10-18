@@ -1,0 +1,12 @@
+{
+  "features": {
+    "default": "no",
+    "housing": "no",
+    "loan": "no",
+    "emp.var.rate": 1.1,
+    "cons.price.idx": 93.994,
+    "cons.conf.idx": -36.4,
+    "euribor3m": 4.857,
+    "nr.employed": 5191.0
+  }
+}

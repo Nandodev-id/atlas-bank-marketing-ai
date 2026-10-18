@@ -1,0 +1,40 @@
+{
+  "purpose": "Training examples, selected for API branch demonstration, not evaluation",
+  "responses": {
+    "high": {
+      "request_id": "149274f1-c272-458f-83ea-c1bded783f3f",
+      "model_version": "20261018T145642Z",
+      "probability": 0.6816295507064072,
+      "prediction": "yes",
+      "threshold": 0.05,
+      "abstain": false,
+      "reasons": [],
+      "action": "decision_support_only",
+      "contact_authorized": false
+    },
+    "low": {
+      "request_id": "92b6f9dd-3d71-4e7a-9f29-033ebc149ad5",
+      "model_version": "20261018T145642Z",
+      "probability": 0.0009805096026225537,
+      "prediction": "no",
+      "threshold": 0.05,
+      "abstain": false,
+      "reasons": [],
+      "action": "decision_support_only",
+      "contact_authorized": false
+    },
+    "ood": {
+      "request_id": "4ccb51f8-0188-420b-a99f-810167376ffb",
+      "model_version": "20261018T145642Z",
+      "probability": null,
+      "prediction": null,
+      "threshold": 0.05,
+      "abstain": true,
+      "reasons": [
+        "out_of_range:euribor3m"
+      ],
+      "action": "human_review",
+      "contact_authorized": false
+    }
+  }
+}

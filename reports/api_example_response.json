@@ -1,0 +1,13 @@
+{
+  "request_id": "c2612415-8f8b-463d-a785-bc411b6a56c5",
+  "model_version": "20261018T145642Z",
+  "probability": 0.028820023275607513,
+  "prediction": null,
+  "threshold": 0.05,
+  "abstain": true,
+  "reasons": [
+    "near_decision_threshold"
+  ],
+  "action": "human_review",
+  "contact_authorized": false
+}
