@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "seed": 42,
+  "split": "original order: first 60% train, next 10% calibration, next 10% validation, last 20% final test",
+  "cv": "3 expanding folds on training only; gap=100 rows (not days)",
+  "ranking_metric": "mean cross-validation average_precision",
+  "selection_rule": "Exclude S1. Among non-dummy candidates within 0.02 AP of the best S2-S4 candidate, prefer fewer features, then higher AP, then shorter fit time.",
+  "calibration": "Fit sigmoid on calibration block; retain only if validation Brier improves and slope is positive",
+  "threshold": "maximize validation F1 over 0.05..0.80 in steps of 0.01; ties prefer the higher threshold",
+  "budget_metric": "precision and lift among highest-scoring 20%; illustrative capacity, not a client contract",
+  "fallback": "abstain for unseen categories or numeric values outside training min/max, or probability within 0.03 of threshold",
+  "local_gate": "final AP > test prevalence; ROC-AUC >=0.60; lift@20 >=1.2; local model p95 <500ms",
+  "production_gate": "human approval, legal contact eligibility, recent representative data, subgroup review and external deployment checks additionally required",
+  "test_policy": "one final evaluation; global source counts already inspected and disclosed",
+  "deduplication": "preserve raw rows; purge exact training-feature duplicates from subsequent evaluation blocks, without using outcome"
+}

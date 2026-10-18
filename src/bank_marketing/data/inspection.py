@@ -74,12 +74,8 @@ def inspect_csv(path: Path) -> DatasetSummary:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Validate and summarize the raw banking CSV")
-    parser.add_argument(
-        "--dataset", type=Path, default=Path("data/raw/bank-additional-full.csv")
-    )
-    parser.add_argument(
-        "--manifest", type=Path, default=Path("data/raw/DATASET.sha256")
-    )
+    parser.add_argument("--dataset", type=Path, default=Path("data/raw/bank-additional-full.csv"))
+    parser.add_argument("--manifest", type=Path, default=Path("data/raw/DATASET.sha256"))
     args = parser.parse_args()
     result = inspect_csv(args.dataset)
     if args.manifest.is_file():

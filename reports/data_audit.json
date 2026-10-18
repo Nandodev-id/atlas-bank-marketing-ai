@@ -1,0 +1,51 @@
+{
+  "source_rows": 41188,
+  "source_columns": 21,
+  "source_duplicates": 12,
+  "train_rows": 24712,
+  "train_nulls": {
+    "age": 0,
+    "job": 0,
+    "marital": 0,
+    "education": 0,
+    "default": 0,
+    "housing": 0,
+    "loan": 0,
+    "contact": 0,
+    "month": 0,
+    "day_of_week": 0,
+    "duration": 0,
+    "campaign": 0,
+    "pdays": 0,
+    "previous": 0,
+    "poutcome": 0,
+    "emp.var.rate": 0,
+    "cons.price.idx": 0,
+    "cons.conf.idx": 0,
+    "euribor3m": 0,
+    "nr.employed": 0,
+    "y": 0
+  },
+  "train_unknown": {
+    "job": 247,
+    "marital": 40,
+    "education": 1075,
+    "default": 6845,
+    "housing": 617,
+    "loan": 617
+  },
+  "train_pdays_999": 24706,
+  "train_duplicates": 7,
+  "split_sizes": {
+    "train": 24712,
+    "calibration": 4119,
+    "validation": 4119,
+    "test": 8238
+  },
+  "split_prevalence": {
+    "train": 0.04807381029459372,
+    "calibration": 0.10148094197620781,
+    "validation": 0.11993202233551833,
+    "test": 0.3083272638990046
+  }
+}

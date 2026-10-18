@@ -4,10 +4,27 @@ CSV_DELIMITER = ";"
 TARGET_COLUMN = "y"
 TARGET_VALUES = frozenset({"yes", "no"})
 EXPECTED_COLUMNS = (
-    "age", "job", "marital", "education", "default", "housing", "loan",
-    "contact", "month", "day_of_week", "duration", "campaign", "pdays",
-    "previous", "poutcome", "emp.var.rate", "cons.price.idx",
-    "cons.conf.idx", "euribor3m", "nr.employed", "y",
+    "age",
+    "job",
+    "marital",
+    "education",
+    "default",
+    "housing",
+    "loan",
+    "contact",
+    "month",
+    "day_of_week",
+    "duration",
+    "campaign",
+    "pdays",
+    "previous",
+    "poutcome",
+    "emp.var.rate",
+    "cons.price.idx",
+    "cons.conf.idx",
+    "euribor3m",
+    "nr.employed",
+    "y",
 )
 
 # Availability and fairness decisions will be finalized in Phase 1/Phase 2.

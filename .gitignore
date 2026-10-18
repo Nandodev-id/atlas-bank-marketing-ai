@@ -14,7 +14,11 @@ dist/
 !.env.example
 .DS_Store
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
 
 # Local dataset files: keep metadata and acquisition instructions in Git
 /data/raw/*
@@ -32,3 +36,11 @@ dist/
 *.pkl
 *.sqlite
 *.db
+/runtime/
+/.cache/
+
+# Local-only exam handout and machine/packaging traces (not application source)
+/docs/Sujet_Examen_Atlas_IA_Marketing_Bancaire.pdf
+/reports/environment_all_packages.json
+/reports/delivery_manifest.json
+*.log
