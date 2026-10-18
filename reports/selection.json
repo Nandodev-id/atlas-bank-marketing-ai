@@ -1,0 +1,39 @@
+{
+  "scenario": "S4",
+  "model": "rf_depth8",
+  "features": [
+    "default",
+    "housing",
+    "loan",
+    "emp.var.rate",
+    "cons.price.idx",
+    "cons.conf.idx",
+    "euribor3m",
+    "nr.employed"
+  ],
+  "threshold": 0.05,
+  "calibrated": false,
+  "raw_validation_brier": 0.11268004156647275,
+  "calibrated_validation_brier": 0.10556648812240994,
+  "validation": {
+    "n": 4119,
+    "prevalence": 0.11993202233551833,
+    "accuracy": 0.7200776887594076,
+    "precision": 0.09866017052375152,
+    "recall": 0.16396761133603238,
+    "f1": 0.12319391634980989,
+    "roc_auc": 0.44546893759597933,
+    "average_precision": 0.10814112178707277,
+    "brier": 0.11268004156647275,
+    "precision_at_20": 0.0983009708737864,
+    "lift_at_20": 0.8196390668605793,
+    "selection_rate": 0.1993202233551833,
+    "tn": 2885,
+    "fp": 740,
+    "fn": 413,
+    "tp": 81
+  },
+  "cv_average_precision": 0.05400459818521828,
+  "rule": "Exclude S1. Among non-dummy candidates within 0.02 AP of the best S2-S4 candidate, prefer fewer features, then higher AP, then shorter fit time.",
+  "frozen_before_test": true
+}

@@ -1,0 +1,7 @@
+{
+  "purpose": "Post-selection latency/cost comparison; 20 additional fits on training only, no model reselection",
+  "samples_per_model": 30,
+  "parallelism": 1,
+  "unit_cost": "CPU seconds per 1000 sequential inferences, no monetary estimate",
+  "caveat": "Local process measurements, not network, container or load performance"
+}

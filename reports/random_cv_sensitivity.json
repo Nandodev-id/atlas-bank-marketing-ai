@@ -1,0 +1,9 @@
+{
+  "scores": [
+    0.08529754581502284,
+    0.10521879315051261,
+    0.10542672948084036
+  ],
+  "mean": 0.09864768948212527,
+  "note": "Training block only; duplicates retained here; optimistic sensitivity, not primary result."
+}

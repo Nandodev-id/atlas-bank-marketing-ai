@@ -1,0 +1,8 @@
+{
+  "n": 8238,
+  "ood_count": 8238,
+  "near_threshold_count": 0,
+  "coverage": 0.0,
+  "accepted_metrics": null,
+  "note": "Offline selective-service simulation; full-test model scores above do not include this abstention policy."
+}

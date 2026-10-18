@@ -1,0 +1,9 @@
+feature,psi,alert
+default,0.3347103168103588,True
+housing,0.015906709128783697,False
+loan,3.4097143364315234e-05,False
+emp.var.rate,6.804634741140779,True
+cons.price.idx,3.7405578181242114,True
+cons.conf.idx,0.06857541702134487,False
+euribor3m,8.556580561414728,True
+nr.employed,0.0,False

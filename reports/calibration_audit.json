@@ -1,0 +1,6 @@
+{
+  "slope": -0.5053883823505622,
+  "intercept": -3.83534152623377,
+  "retained": false,
+  "reason": "Negative slope would reverse score ordering; rejected by original rule."
+}

@@ -1,0 +1,31 @@
+{
+  "version": "20261018T145642Z",
+  "scenario": "S4",
+  "model": "rf_depth8",
+  "features": [
+    "default",
+    "housing",
+    "loan",
+    "emp.var.rate",
+    "cons.price.idx",
+    "cons.conf.idx",
+    "euribor3m",
+    "nr.employed"
+  ],
+  "threshold": 0.05,
+  "model_sha256": "6ae5c5721623c1c79e5a635489cac5caf9b96948c842c80de8892a6a1b8831b9",
+  "data_sha256": "74adfc578bf77a7ff4bb1ba4a9f8709d9e3c6907342959c2c8416847e0afb4d8",
+  "python": "3.12.7",
+  "sklearn": "1.5.1",
+  "git_commit": "73d1ac2039d8d24022ac6bc195c9cf4310d16bec",
+  "git_dirty": true,
+  "split_sizes": {
+    "train": 24712,
+    "calibration": 4119,
+    "validation": 4119,
+    "test": 8238
+  },
+  "fit_seconds": 0.4294480000025942,
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "production_approved": false
+}
