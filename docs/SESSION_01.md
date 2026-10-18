@@ -1,3 +1,5 @@
+> Historique de la première étape, conservé pour traçabilité. Pour l’état final, lire le README, le notebook de certification et `COUVERTURE_EXAMEN.md`.
+
 # Session 1 — Foundation checklist
 
 - [x] Parse the learner-supplied CSV and confirm row count, columns, target distribution, duplicate rows and sentinel frequency.

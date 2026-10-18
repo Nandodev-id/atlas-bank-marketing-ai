@@ -1,51 +1,158 @@
-# Atlas Bank Marketing AI
+# Atlas — marketing bancaire responsable
 
-A reproducible, responsible AI project for **bank term-deposit marketing targeting**, developed for the Simplon / OPCO Atlas **Concevoir et implémenter une solution d'IA** certification (C1–C9).
+Projet de certification Simplon / OPCO Atlas, compétences C1–C9. **Le projet local est implémenté et évalué ; le candidat ne doit pas être promu en production.** Les résultats, leur interprétation et les limites sont documentés, sans score inventé.
 
-> **Status: Session 1 — project foundation.** No model has been trained, no predictions have been validated, and no banking system has been integrated. Never use this starter to make real customer decisions.
+## Commencer par ces fichiers
 
-## Problem
+- [Notebook de certification complet](notebooks/certification.ipynb) — toutes les sections du canevas, sorties et figures incorporées.
+- [Version HTML à ouvrir dans un navigateur](reports/certification.html) — lecture sans Jupyter.
+- [Guide oral pas à pas en français](docs/GUIDE_ORAL_PAS_A_PAS.md) — explications, démonstration et questions du jury.
+- [Model card](docs/MODEL_CARD.md), [architecture et exploitation](docs/ARCHITECTURE_ET_EXPLOITATION.md), [éthique et conformité](docs/ETHIQUE_ET_CONFORMITE.md).
+- [Canevas officiel original](notebooks/simplon_reference_canvas.ipynb), issu de [cas_usage_certif/canvas-cas-usage-v2.ipynb](https://github.com/Formation-SIMPLON-IA/ia-dev-id-ressources/blob/main/cas_usage_certif/canvas-cas-usage-v2.ipynb).
 
-Predict whether a contacted customer will subscribe to a term deposit while analyzing feature leakage, fairness, time-related shift, and operational constraints. The file `bank-additional-full.csv` contains **41,188 observations**, **20 predictors**, and the binary outcome `y` (`yes`/`no`).
+- [Lecture du code et comparaison des architectures](docs/LECTURE_CODE_PAS_A_PAS.md) — parcours de préparation à l’oral.
 
-## Quick start (Mac, Python 3.11–3.13)
+## Résultat principal
+
+60 ajustements de validation croisée : quatre scénarios × cinq configurations × trois folds temporels. Le candidat minimisé S4 est une forêt de 100 arbres, profondeur 8, huit variables, seuil 0,05.
+
+| Test final, sans filtre d'abstention | Valeur |
+|---|---:|
+| ROC-AUC | 0,694 |
+| Average precision | 0,443 |
+| Prévalence / référence AP | 0,308 |
+| Précision / rappel | 40,31 % / 88,98 % |
+| F1 | 55,49 % |
+| Lift parmi les 20 % prioritaires | 1,43× |
+
+**Pourquoi ne pas déployer ?** La validation est sous sa référence AP, les erreurs varient fortement entre groupes et la politique OOD s'abstient sur 100 % du bloc final. La couverture opérationnelle est donc nulle. Les scores ci-dessus ne sont pas ceux de décisions émises par le service. Ne pas confondre une API fonctionnelle et un modèle validé pour une campagne réelle.
+
+## Environnement
+
+Sur ce Mac, `.venv` existe déjà, adossé en lecture aux paquets Anaconda installés :
 
 ```bash
-cd ~/path/to/ia/atlas-bank-marketing-ai
-python3 -m venv .venv
+cd /Users/fernando/Documents/devid/formation-ai/atlas-bank-marketing-ai
 source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -e '.[dev]'
-python -m bank_marketing.data.inspection
 python -m pytest -q
 ```
 
-The raw CSV is supplied in the downloadable starter ZIP. It is intentionally `.gitignore`d; obtain the original from the [UCI Bank Marketing dataset](https://archive.ics.uci.edu/dataset/222/bank+marketing) if you clone GitHub without that ZIP. Verify the file using `data/raw/DATASET.sha256`.
+Sur une autre machine, Python **3.12** conseillé pour les versions testées :
 
-Optional: run `python scripts/fetch_simplon_canvas.py` on your Mac to obtain the complete official course canvas as a separate reference notebook.
+```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-tested.txt
+python -m pip install --no-deps -e .
+python -m ipykernel install --prefix .venv --name atlas --display-name 'Atlas Python'
+```
 
-To install future API/MLOps dependencies, use the optional dependency groups in `pyproject.toml` when those phases begin.
+Les dépendances directes sont figées dans `requirements-tested.txt`. L'inventaire complet de l'environnement observé est dans `reports/environment_all_packages.json` ; ce n'est pas un lock transplateforme des dépendances transitives.
+
+## Démonstration locale
+
+Terminal 1 :
+
+```bash
+source .venv/bin/activate
+python -m bank_marketing.service
+```
+
+Ouvrir `http://127.0.0.1:8000/docs` pour Swagger. Terminal 2 :
+
+```bash
+source .venv/bin/activate
+python -m streamlit run ui/app.py --server.address 127.0.0.1
+```
+
+Ouvrir `http://127.0.0.1:8501`. Le mode local fonctionne sans clé, uniquement sur localhost. Pour activer l'authentification, définir `ATLAS_API_KEY` dans les deux terminaux. Le mode `ATLAS_ENV=production` impose une clé et ne signifie pas que le modèle est approuvé.
+
+Exemple d'appel :
+
+```bash
+curl -s http://127.0.0.1:8000/predict \
+  -H 'Content-Type: application/json' \
+  --data-binary @reports/example_request.json
+```
+
+Si une clé est configurée, ajouter un en-tête Bearer. Ne pas envoyer de données réelles pour la démonstration. Le système n'autorise jamais automatiquement le démarchage.
+
+Pour lancer les deux services avec Docker sur ce Mac (artefacts déjà présents) :
+
+```bash
+export ATLAS_API_KEY="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+docker compose up --build
+```
+
+L'interface reste sur le port 8501 et l'API sur 8000. Sur un clone neuf, produire ou récupérer les artefacts approuvés avant de construire l'image API. La configuration Compose a été validée ; la construction et l'exécution Docker restent à tester sur votre machine.
+
+## Données et reproduction
+
+Le CSV original est dans `data/raw/` sur ce Mac et dans le ZIP de rendu. Il est exclu de Git. Pour un clone neuf :
+
+```bash
+python scripts/fetch_dataset.py
+python -m bank_marketing.data.inspection
+```
+
+Le téléchargement contrôle le SHA-256 attendu. Citation : Moro, S., Rita, P., & Cortez, P. (2014), Bank Marketing, UCI, DOI 10.24432/C5K306 ; licence CC BY 4.0.
+
+L'expérience est déjà exécutée. Pour la reproduire depuis un clone sans résultats runtime, **archiver les rapports fournis** puis :
+
+```bash
+# Le script refuse volontairement d'écraser reports/final_test.json.
+python -m bank_marketing.modeling.train
+python scripts/build_reports.py
+python scripts/benchmark_operations.py
+python scripts/freeze_environment.py
+python scripts/evaluate_candidate.py
+python scripts/smoke_api.py
+python scripts/smoke_ui.py
+python scripts/build_notebook.py
+python scripts/execute_notebooks.py
+```
+
+Pour une nouvelle expérimentation, utiliser `--output runtime/experience-02/reports --artifacts runtime/experience-02/artifacts` et documenter la passe ; ne pas remplacer les preuves de la première évaluation. `build_reports.py` et le notebook principal lisent les résultats de référence à la racine. Les scripts de candidate evaluation acceptent un autre dossier. Une répétition de reproduction sur le même test n'est pas une nouvelle validation indépendante.
+
+La session Codex interdit les sockets Jupyter : les 21 cellules de code de certification et les 9 cellules d'exploration ont été exécutées séquentiellement avec `scripts/execute_notebooks_inprocess.py`, en namespace IPython neuf. Les figures et sorties sont réelles. `execute_notebooks.py` fournit la vérification avec noyau externe sur une machine qui l'autorise.
+
+## Vérification et preuves
+
+```bash
+python -m pytest -q
+python scripts/smoke_api.py
+python scripts/smoke_ui.py
+python scripts/check_release.py
+# Échec attendu pour ce candidat :
+python scripts/check_release.py --production
+```
+
+Les tests API utilisent ASGI TestClient ; l'interface utilise Streamlit AppTest relié à l'API réelle en mémoire. Les latences sont séquentielles et locales, sans réseau ni charge concurrente. `reports/verification.json` précise ce qui a été exécuté. Aucun Docker, run GitHub Actions distant ou hébergement réel n'est revendiqué.
+
+## Industrialisation
+
+- `/predict`, `/health`, `/model`, `/feedback`, `/monitoring`, `/metrics`, `/train`, `/jobs/{id}`.
+- Modèle complet + hash ; validation stricte ; logs structurés ; audit SQLite restreint et durée limitée.
+- MLflow local : `python -m mlflow ui --backend-store-uri ./mlruns --host 127.0.0.1`.
+- `docker-compose.yml` : deux services API + Streamlit, clé requise, non-root, stockage audit séparé, CPU/RAM limités.
+- CI : tests et compilation. Pipeline candidat : snapshot approuvé, entraînement, évaluation, comparaison champion/challenger si configurée, gate de promotion, environnement GitHub production.
+- Déploiement activé seulement si hôte, champion et fenêtre commune approuvée sont configurés. Le script serveur teste la santé puis restaure l'image précédente en cas d'échec.
+
+Dépôt distant configuré : https://github.com/Nandodev-id/atlas-bank-marketing-ai. La publication depuis cette session est bloquée : DNS indisponible dans le terminal et permission d’écriture refusée (403) par l’intégration GitHub. Les modifications sont préparées pour un `git push origin main` depuis le terminal VS Code. Aucun déploiement réel n’est revendiqué. Pour la production, configurer l'approbation de l'environnement GitHub, les secrets SSH et le contrôle des droits de contact ; surtout, fournir un **nouveau candidat qui passe les contrôles**.
 
 ## Structure
 
-- `notebooks/certification.ipynb` — nine-section certification notebook **based on** Simplon's published canvas (not a verbatim copy).
-- `notebooks/exploration.ipynb` — EDA starter; no model training yet.
-- `src/bank_marketing/data` — source data contract and read-only inspection.
-- `src/bank_marketing/modeling`, `ethics`, `monitoring` — modules reserved for future phases.
-- `api/`, `tests/`, `.github/workflows/` — serving, verification and CI/CD.
-- `docs/` — approved plan, evidence and design decisions.
+```text
+config/                 protocole initial
+src/bank_marketing/      inspection, modèle, monitoring, API
+notebooks/              rendu complet, exploration et référence
+reports/                scores, figures, OpenAPI, HTML, preuves
+artifacts/              modèle et données de référence locales (hors Git)
+ui/                     interface Streamlit
+scripts/                reproduction, contrôles, déploiement
+ tests/                 tests automatisés
+.github/workflows/      CI et cycle candidat
+ docs/                  guide oral, décisions et conformité
+```
 
-## Approved engineering principles (Plan v2)
-
-1. Define the **pre-contact decision point** and audit feature availability.
-2. Include S1 (all features; leakage illustration), S2 (without `duration`), S3 (fairness-related exclusions), and S4 (minimal, if feasible).
-3. Make **chronological, out-of-time assessment** primary; retain a sealed holdout.
-4. Compare Logistic Regression and Random Forest, with optional Gradient Boosting.
-5. Evaluate ranking utility and calibration, not accuracy alone.
-6. Measure subgroup fairness, secure personal data, and promote models only through release gates.
-
-**Important:** the dataset is reportedly chronologically ordered but lacks full per-row timestamps and customer IDs. We must verify these assumptions before finalizing the validation protocol. No causal claim about marketing-call effectiveness can be made from this observational table alone.
-
-## Source materials
-
-See [docs/SOURCES.md](docs/SOURCES.md), [docs/PROJECT_PLAN.md](docs/PROJECT_PLAN.md) and [docs/SESSION_01.md](docs/SESSION_01.md).
+`docs/AUDIT_ET_PLAN_ORAL.md`, `SESSION_01.md` et `ETAPE_01_CADRAGE.md` conservent l'historique initial ; ce README, le notebook final et la model card décrivent l'état actuel.
