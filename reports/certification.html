@@ -7517,8 +7517,8 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Cas-d'usage-IA-%E2%80%94-Atlas-:-marketing-bancaire-responsable">Cas d'usage IA — Atlas : marketing bancaire responsable<a class="anchor-link" href="#Cas-d'usage-IA-%E2%80%94-Atlas-:-marketing-bancaire-responsable">¶</a></h1><p><strong>Auteur : Fernando</strong> · Dev-id · Certification CISIA C1–C9 / OPCO Atlas<br/>
-<strong>Session : 18 octobre 2026</strong> · Préparation de l'oral du mardi 20 octobre 2026</p>
-<p>Ce cahier suit le canevas officiel <code>cas_usage_certif/canvas-cas-usage-v2.ipynb</code>, conservé sans adaptation dans <code>simplon_reference_canvas.ipynb</code>. Il réunit le raisonnement, les preuves et le journal de bord. Le code du service reste dans le dépôt.</p>
+<strong>Expérience de référence : 18 octobre 2026</strong></p>
+<p>Ce cahier suit le canevas officiel <code>cas_usage_certif/canvas-cas-usage-v2.ipynb</code>, conservé sans adaptation dans le dossier <code>cas_usage_certif/</code>. Il réunit le raisonnement, les preuves et le journal de bord. Le code du service reste dans le dépôt.</p>
 <p><strong>Conclusion : projet pédagogique exécuté, candidat non promouvable en production.</strong> Le modèle classe mieux que le hasard sur le dernier bloc, mais sa validation temporelle est faible, les écarts entre groupes persistent et le service s'abstient sur tout le test final. Cette conclusion fait partie du résultat, elle n'est pas masquée.</p>
 <p>Les cellules relisent les artefacts issus d'une expérience réelle et figée. Elles ne réentraînent pas silencieusement le modèle à chaque lecture. Pour reproduire depuis zéro : commandes en section 5.2 et README. Les figures sont incorporées aux sorties pour une lecture portable du <code>.ipynb</code>.</p>
 </div>
@@ -12189,10 +12189,7 @@ dtype: object</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<hr/>
-<h2 id="7.-Interpr%C3%A9tation-pour-la-communication-client-(pr%C3%A9paration-soutenance)">7. Interprétation pour la communication client (préparation soutenance)<a class="anchor-link" href="#7.-Interpr%C3%A9tation-pour-la-communication-client-(pr%C3%A9paration-soutenance)">¶</a></h2><p><strong>Compétences</strong> : C8 (mesurer la performance et les impacts) + transversal communication</p>
-<p>🎯 Rendre le modèle <strong>lisible par un non-data scientist</strong>. <strong>Cette section est la base de ton pitch oral de soutenance</strong> (15 min × jury de 2 pros). Elle ne couvre pas C8 stricto sensu (les sections 5, 6 et 9 le font) mais en restitue les résultats en langage métier.</p>
-<p>💡 Feature importance, SHAP (optionnel), matrice de confusion commentée. Trois messages-clés maximum dans ton pitch oral, pas dix.</p>
+<h2 id="7.-Interpr%C3%A9tation-et-communication">7. Interprétation et communication<a class="anchor-link" href="#7.-Interpr%C3%A9tation-et-communication">¶</a></h2><p>Analyse des facteurs prédictifs, des erreurs et des limites ; synthèse des résultats en langage métier.</p>
 </div>
 </div>
 </div>
@@ -12452,7 +12449,7 @@ dtype: object</pre>
 <h3 id="7.3-Message-au-client-(langage-m%C3%A9tier)">7.3 Message au client (langage métier)<a class="anchor-link" href="#7.3-Message-au-client-(langage-m%C3%A9tier)">¶</a></h3><p>« Nous avons construit et testé un outil qui estime la propension historique à souscrire. Parmi les 20 % de profils les mieux classés du dernier bloc, environ 44.1% ont souscrit, contre 30.8% dans l'ensemble du bloc. Ce résultat est descriptif, pas la preuve d'un gain causal lié à un appel.</p>
 <p>Nous avons écarté la durée d'appel, car elle n'est connue qu'après la décision. Nous avons aussi testé une version réduite à huit informations. Toutefois, les périodes diffèrent fortement et les écarts d'erreurs entre groupes restent importants.</p>
 <p>Nous recommandons de conserver ce service en démonstration. Une campagne réelle exige un nouvel échantillon récent, une validation plus stable, une revue de conformité et une vérification des permissions de contact. »</p>
-<h3 id="7.4-Synth%C3%A8se-interpr%C3%A9tation">7.4 Synthèse interprétation<a class="anchor-link" href="#7.4-Synth%C3%A8se-interpr%C3%A9tation">¶</a></h3><p>Trois messages : le piège de duration ; la différence entre score et utilité stable ; la non-promotion justifiée malgré une API fonctionnelle. Le guide oral détaillé est <code>docs/GUIDE_ORAL_PAS_A_PAS.md</code>.</p>
+<h3 id="7.4-Synth%C3%A8se-interpr%C3%A9tation">7.4 Synthèse interprétation<a class="anchor-link" href="#7.4-Synth%C3%A8se-interpr%C3%A9tation">¶</a></h3><p>Trois messages : le piège de duration ; la différence entre score et utilité stable ; la non-promotion justifiée malgré une API fonctionnelle.</p>
 </div>
 </div>
 </div>
@@ -12844,61 +12841,7 @@ dtype: object</pre>
 </ul>
 <p><strong>Analyse juridique synthétique</strong> : distinguer données personnelles, catégories particulières de l'article 9 et variables commercialement discutables. Examiner séparément base du développement et base de l'usage. En France, depuis août 2026, consentement préalable au démarchage téléphonique ou exception applicable ; le modèle ne fournit pas cette preuve. La conservation de 30 jours proposée dans le prototype doit être validée. Voir <code>docs/ETHIQUE_ET_CONFORMITE.md</code> pour le raisonnement complet.</p>
 <h3 id="C.-D%C3%A9cisions-techniques-d%C3%A9taill%C3%A9es">C. Décisions techniques détaillées<a class="anchor-link" href="#C.-D%C3%A9cisions-techniques-d%C3%A9taill%C3%A9es">¶</a></h3><p><code>docs/ARCHITECTURE_ET_EXPLOITATION.md</code> documente contraintes, ressources, sécurité, reprise humaine et limites. <code>config/protocol.json</code> conserve les décisions initiales. <code>reports/production_decision.json</code> applique la revue de promotion. L'absence de promotion est une conclusion du projet.</p>
-<h3 id="D.-Journal-de-bord">D. Journal de bord<a class="anchor-link" href="#D.-Journal-de-bord">¶</a></h3><table>
-<thead>
-<tr>
-<th>Étape du 18/10/2026</th>
-<th>Travail / résultat / justification</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Audit initial</td>
-<td>Lecture des six pages, source vérifiée, projet au stade fondation ; comptes globaux déjà vus</td>
-</tr>
-<tr>
-<td>Référence</td>
-<td>Canevas officiel récupéré, ancien squelette sauvegardé</td>
-</tr>
-<tr>
-<td>Cadrage</td>
-<td>Décision avant appel, exclusions, métriques et critères explicités</td>
-</tr>
-<tr>
-<td>Environnement</td>
-<td>Venv local adossé à Anaconda existant ; versions archivées ; aucune modification de l'environnement global</td>
-</tr>
-<tr>
-<td>Protocole</td>
-<td>60/10/10/20, CV croissante, scénarios et sélection fixés avant entraînement</td>
-</tr>
-<tr>
-<td>Expériences</td>
-<td>60 fits CV, choix S4 forêt profondeur 8, calibration rejetée, seuil 0,05</td>
-</tr>
-<tr>
-<td>Test n°1</td>
-<td>Une ouverture après gel ; prédictions archivées, aucune nouvelle sélection fondée sur test</td>
-</tr>
-<tr>
-<td>Audit final</td>
-<td>Sous-groupes, drift et couverture : 0 % de couverture ; décision non-promotion</td>
-</tr>
-<tr>
-<td>Gates complémentaires</td>
-<td>Seuil couverture 80 % et écarts 20 points ajoutés lors de la revue, explicitement postérieurs, sans réajuster le modèle</td>
-</tr>
-<tr>
-<td>Service</td>
-<td>API, feedback, entraînement candidat séparé, monitoring et tests synthétiques</td>
-</tr>
-<tr>
-<td>Livraison</td>
-<td>Notebook exécuté, rapports, guide oral, CI/CD et conteneurisation fournis ; Docker et hôte réel non exécutés</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Réflexion personnelle à reformuler par Fernando avant l'oral</strong> : expliquer avec ses propres mots pourquoi une bonne métrique finale ne suffit pas, ce que la minimisation change et ce qu'elle ne garantit pas. L'assistance à la rédaction et au code ne remplace pas cette compréhension.</p>
+<h3 id="D.-Journal-de-bord">D. Journal de bord<a class="anchor-link" href="#D.-Journal-de-bord">¶</a></h3><p>Voir <a href="journal-de-bord.ipynb">journal-de-bord.ipynb</a> pour les étapes datées et les décisions.</p>
 </div>
 </div>
 </div>

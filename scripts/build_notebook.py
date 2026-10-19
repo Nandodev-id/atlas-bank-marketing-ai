@@ -11,7 +11,7 @@ s = read("selection.json")
 f = read("final_test.json")
 a = read("data_audit.json")
 p = read("production_decision.json")
-n = nbf.read(ROOT / "notebooks/simplon_reference_canvas.ipynb", as_version=4)
+n = nbf.read(ROOT / "cas_usage_certif/canvas-cas-usage-v2.ipynb", as_version=4)
 
 
 def md(i, text):
@@ -27,9 +27,9 @@ md(
     """# Cas d'usage IA — Atlas : marketing bancaire responsable
 
 **Auteur : Fernando** · Dev-id · Certification CISIA C1–C9 / OPCO Atlas  
-**Session : 18 octobre 2026** · Préparation de l'oral du mardi 20 octobre 2026
+**Expérience de référence : 18 octobre 2026**
 
-Ce cahier suit le canevas officiel `cas_usage_certif/canvas-cas-usage-v2.ipynb`, conservé sans adaptation dans `simplon_reference_canvas.ipynb`. Il réunit le raisonnement, les preuves et le journal de bord. Le code du service reste dans le dépôt.
+Ce cahier suit le canevas officiel `cas_usage_certif/canvas-cas-usage-v2.ipynb`, conservé sans adaptation dans le dossier `cas_usage_certif/`. Il réunit le raisonnement, les preuves et le journal de bord. Le code du service reste dans le dépôt.
 
 **Conclusion : projet pédagogique exécuté, candidat non promouvable en production.** Le modèle classe mieux que le hasard sur le dernier bloc, mais sa validation temporelle est faible, les écarts entre groupes persistent et le service s'abstient sur tout le test final. Cette conclusion fait partie du résultat, elle n'est pas masquée.
 
@@ -102,26 +102,6 @@ display(pd.Series(read_report('environment.json')['packages'], name='Version tes
 print('L’environnement complet est archivé dans reports/environment_all_packages.json.')
 """,
 )
-framing = (ROOT / "docs/ETAPE_01_CADRAGE.md").read_text().split("## À expliquer")[0]
-framing = framing.replace(
-    "**Compétences : C1, C2, C4. Étape 1 — proposition de cadrage à expliquer à l'oral.**",
-    "**Compétences : C1, C2, C4.**",
-)
-framing = framing.replace(
-    "Aucun modèle ni gain métier n’est encore validé.",
-    "Le modèle est évalué ; aucun gain métier causal ni déploiement réel n’est validé.",
-)
-framing = framing.replace(
-    "Aucun modèle ni gain métier n'est encore validé.",
-    "Le modèle est évalué ; aucun gain métier causal ni déploiement réel n'est validé.",
-)
-framing += """
-
-### Mise à jour après exploration et évaluation
-Les objectifs initiaux restent distingués des résultats. Le p95 proposé < 500 ms est satisfait localement, mais pas démontré sous charge réseau. Le top 20 % constitue un budget illustratif : aucun ROI en euros n'est calculable sans coûts et gains métier. La validation chronologique n'apporte pas de gain convaincant ; aucune cible n'est révisée après coup pour faire passer le modèle. Les contrôles de production ajoutés à la revue sont décrits comme postérieurs dans le journal.
-
-L'analyse juridique et les sources actualisées figurent dans `docs/ETHIQUE_ET_CONFORMITE.md` et sont synthétisées en annexe. Les opérations réelles exigent une validation SI/métier/DPO.
-"""
 md(7, (ROOT / "docs/CADRAGE_FINAL.md").read_text())
 md(
     9,
@@ -498,7 +478,7 @@ Nous avons écarté la durée d'appel, car elle n'est connue qu'après la décis
 Nous recommandons de conserver ce service en démonstration. Une campagne réelle exige un nouvel échantillon récent, une validation plus stable, une revue de conformité et une vérification des permissions de contact. »
 
 ### 7.4 Synthèse interprétation
-Trois messages : le piège de duration ; la différence entre score et utilité stable ; la non-promotion justifiée malgré une API fonctionnelle. Le guide oral détaillé est `docs/GUIDE_ORAL_PAS_A_PAS.md`.
+Trois messages : le piège de duration ; la différence entre score et utilité stable ; la non-promotion justifiée malgré une API fonctionnelle.
 """,
 )
 md2(
@@ -648,6 +628,13 @@ md(
 
 ### D. Journal de bord
 
+Voir [journal-de-bord.ipynb](journal-de-bord.ipynb) pour les étapes datées et les décisions.
+""",
+)
+journal = nbf.v4.new_notebook(
+    cells=[nbf.v4.new_markdown_cell(
+        """# Journal de bord — Atlas
+
 | Étape du 18/10/2026 | Travail / résultat / justification |
 |---|---|
 | Audit initial | Lecture des six pages, source vérifiée, projet au stade fondation ; comptes globaux déjà vus |
@@ -660,11 +647,20 @@ md(
 | Audit final | Sous-groupes, drift et couverture : 0 % de couverture ; décision non-promotion |
 | Gates complémentaires | Seuil couverture 80 % et écarts 20 points ajoutés lors de la revue, explicitement postérieurs, sans réajuster le modèle |
 | Service | API, feedback, entraînement candidat séparé, monitoring et tests synthétiques |
-| Livraison | Notebook exécuté, rapports, guide oral, CI/CD et conteneurisation fournis ; Docker et hôte réel non exécutés |
+| Livraison | Notebook exécuté, rapports, CI/CD et conteneurisation fournis ; Docker et hôte réel non exécutés |
 
-**Réflexion personnelle à reformuler par Fernando avant l'oral** : expliquer avec ses propres mots pourquoi une bonne métrique finale ne suffit pas, ce que la minimisation change et ce qu'elle ne garantit pas. L'assistance à la rédaction et au code ne remplace pas cette compréhension.
-""",
+## 19 octobre 2026
+
+Réorganisation du livrable : README technique condensé, canevas officiel séparé, point d’entrée API standard et notes de préparation déplacées hors dépôt. Comparaison des structures des dépôts de 3ti3nne et nawellepolin ; aucun code ou résultat de ces projets repris.
+"""
+    )]
 )
+nbf.write(journal, ROOT / "notebooks/journal-de-bord.ipynb")
+
+for cell in n.cells:
+    if cell.cell_type == "markdown" and "Cette section est la base de ton pitch" in cell.source:
+        cell.source = "## 7. Interprétation et communication\n\nAnalyse des facteurs prédictifs, des erreurs et des limites ; synthèse des résultats en langage métier."
+
 # Add real monitoring diagnostic without any additional selection.
 n.cells.insert(
     51,

@@ -11,8 +11,8 @@
 | C7 — architecture | 8 | Schéma, hypothèses CPU/RAM, choix hébergement, Docker et CI/CD, rollback |
 | C8 — performance et impacts | 6–7, 9 | Scores, calibration, erreurs par groupe, couverture, décision non-promotion, monitoring |
 | C9 — évolution continue | 9 | Feedback, déclencheurs, /train candidat séparé, gates, comparaison champion/challenger |
-| Communication | 7 | Guide français, plan oral, réponses aux questions, HTML lisible |
-| Traçabilité | 0.5 et annexes | Versions, hash, indices figés, journal intégré, inventaire de vérification |
+| Communication | 7 | Interprétation métier, synthèse des résultats et HTML lisible |
+| Traçabilité | 0.5 et annexes | Versions, hash, indices figés, journal de bord, inventaire de vérification |
 
 ## Distinction réalisé / configuré / non exécuté
 

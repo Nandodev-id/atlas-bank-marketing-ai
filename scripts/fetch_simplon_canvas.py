@@ -11,7 +11,7 @@ SOURCE_URL = (
     "https://raw.githubusercontent.com/Formation-SIMPLON-IA/"
     "ia-dev-id-ressources/main/cas_usage_certif/canvas-cas-usage-v2.ipynb"
 )
-DESTINATION = Path(__file__).resolve().parents[1] / "notebooks/simplon_reference_canvas.ipynb"
+DESTINATION = Path(__file__).resolve().parents[1] / "cas_usage_certif/canvas-cas-usage-v2.ipynb"
 
 
 def main() -> None:
@@ -23,6 +23,7 @@ def main() -> None:
         raise ValueError("Remote content is not a Jupyter notebook")
     if DESTINATION.exists():
         raise FileExistsError(f"Reference already exists: {DESTINATION}")
+    DESTINATION.parent.mkdir(parents=True, exist_ok=True)
     DESTINATION.write_bytes(contents)
     print(f"Downloaded official Simplon reference: {DESTINATION}")
 

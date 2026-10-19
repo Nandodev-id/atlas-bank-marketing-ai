@@ -1,24 +1,24 @@
-# Sources and provenance
+# Sources et provenance
 
-## Examination brief
+## Données et sujet
 
-- `Sujet_Examen_Atlas_IA_Marketing_Bancaire.pdf` — supplied by the learner; 6-page case study, including column descriptions, scenarios, API, architecture, monitoring, ethics.
-- `bank-additional-full.csv` — supplied by the learner; semicolon-separated, quoted fields, 41,188 data rows and 21 columns.
-- Raw CSV file SHA-256: `74adfc578bf77a7ff4bb1ba4a9f8709d9e3c6907342959c2c8416847e0afb4d8`.
-- Upstream dataset: https://archive.ics.uci.edu/dataset/222/bank+marketing
+- Sujet Atlas fourni : six pages, dictionnaire des variables et attendus de certification. Le PDF reste local, hors Git.
+- CSV `bank-additional-full.csv` : 41 188 observations, 20 prédicteurs et la cible `y`, séparateur `;`.
+- SHA-256 : `74adfc578bf77a7ff4bb1ba4a9f8709d9e3c6907342959c2c8416847e0afb4d8`.
+- [UCI Bank Marketing](https://archive.ics.uci.edu/dataset/222/bank+marketing), Moro, Rita & Cortez (2014), DOI 10.24432/C5K306, licence CC BY 4.0.
 
-## Official course materials
+## Référentiel
 
-- Shared course resources: https://github.com/Formation-SIMPLON-IA/ia-dev-id-ressources
-- Certification canvas: https://github.com/Formation-SIMPLON-IA/ia-dev-id-ressources/blob/main/cas_usage_certif/canvas-cas-usage-v2.ipynb
-- Competency framework: https://github.com/Formation-SIMPLON-IA/ia-dev-id-ressources/blob/main/00_competences_referentiels.md
-- MLOps guidelines: https://github.com/Formation-SIMPLON-IA/ia-dev-id-ressources/blob/main/cheatsheet_mlops_deploiement.md
+- [Canevas officiel Simplon](https://github.com/Formation-SIMPLON-IA/ia-dev-id-ressources/blob/main/cas_usage_certif/canvas-cas-usage-v2.ipynb), copie non modifiée dans `cas_usage_certif/canvas-cas-usage-v2.ipynb`.
+- [Référentiel des compétences](https://github.com/Formation-SIMPLON-IA/ia-dev-id-ressources/blob/main/00_competences_referentiels.md).
+- [Aide MLOps et déploiement](https://github.com/Formation-SIMPLON-IA/ia-dev-id-ressources/blob/main/cheatsheet_mlops_deploiement.md).
 
-**Update — 2026-10-18:** the full upstream notebook was retrieved through the GitHub connector into `notebooks/simplon_reference_canvas.ipynb`. The working `certification.ipynb` now retains the full canvas and includes our section 1 draft. The earlier lightweight outline is preserved as `notebooks/certification_foundation_backup.ipynb`. See `AUDIT_ET_PLAN_ORAL.md` for verified progress and remaining work.
+## Organisation du livrable
 
+Structures consultées le 19 octobre 2026 : [3ti3nne/certif_etienne](https://github.com/3ti3nne/certif_etienne) et [nawellepolin/cas-usage-certif-bank-marketing-nawelle](https://github.com/nawellepolin/cas-usage-certif-bank-marketing-nawelle). Organisation retenue : notebook principal, journal distinct, référence séparée, README technique court et point d’entrée API identifiable. Aucun code ni résultat de ces projets n’a été repris.
 
-## État final de la session du 18 octobre 2026
+## Preuves d’exécution
 
-Le sujet PDF est aussi inclus dans `docs/Sujet_Examen_Atlas_IA_Marketing_Bancaire.pdf`. Le notebook complet est rempli et exécuté (méthode IPython en processus documentée). Les cellules, chiffres et figures correspondent à l'expérience réelle ; l'ancien squelette et le canevas non rempli sont conservés comme références.
+Le notebook contient les sorties et figures de l’expérience de référence. Ses cellules ont été exécutées séquentiellement dans un namespace IPython neuf via `scripts/execute_notebooks_inprocess.py` ; cette méthode évite les sockets requis par un noyau Jupyter externe. `scripts/execute_notebooks.py` fournit aussi l’exécution avec un noyau externe.
 
-Le rapport `reports/verification.json` distingue les vérifications réellement exécutées des étapes d'infrastructure non exécutées. Les sources réglementaires actualisées sont référencées dans `ETHIQUE_ET_CONFORMITE.md`. Le jeu et l'ordre temporel sont documentés par UCI ; le dictionnaire spécifique provient du sujet, pour éviter de mélanger les variantes de la page UCI.
+`reports/verification.json` distingue les vérifications exécutées des étapes d’infrastructure non exécutées. Les sources réglementaires figurent dans `ETHIQUE_ET_CONFORMITE.md`.
