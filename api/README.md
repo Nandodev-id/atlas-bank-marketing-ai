@@ -1,5 +1,7 @@
 # API Atlas
 
-Implémentation : `src/bank_marketing/service`. Lancer `python -m bank_marketing.service` depuis la racine après activation du venv. Swagger : http://127.0.0.1:8000/docs ; contrat exporté : `reports/openapi.json`.
+Point d’entrée : `api/main.py`. Depuis la racine, lancer `python -m uvicorn api.main:app --reload`. Le service réutilise le paquet `bank_marketing.service` ; il ne duplique pas le pipeline de prédiction. Le lancement `python -m bank_marketing.service` reste disponible.
 
-Voir le README principal et `docs/ARCHITECTURE_ET_EXPLOITATION.md` pour authentification, abstention, audit, feedback et entraînement candidat. Le service est un prototype local ; le candidat actuel ne passe pas les contrôles de production.
+Swagger : http://127.0.0.1:8000/docs. Contrat exporté : `reports/openapi.json`.
+
+Voir `docs/ARCHITECTURE_ET_EXPLOITATION.md` pour l’authentification, l’abstention, l’audit, le feedback et l’entraînement candidat.

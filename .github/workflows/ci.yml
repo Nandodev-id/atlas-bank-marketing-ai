@@ -16,7 +16,7 @@ jobs:
           cache: pip
       - run: pip install -r requirements-runtime.txt && pip install -e '.[dev]'
       - name: Compile source and scripts
-        run: python -m compileall -q src scripts ui tests
+        run: python -m compileall -q api src scripts ui tests
       - name: Verify data-independent contracts and HTTP behavior
         run: pytest -q --junitxml=reports/pytest.xml
       - uses: actions/upload-artifact@v4
