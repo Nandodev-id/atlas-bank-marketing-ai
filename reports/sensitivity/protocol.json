@@ -1,0 +1,31 @@
+{
+  "created_at": "2026-10-19T14:26:51.947940+00:00",
+  "purpose": "Post-evaluation exploratory sensitivity; no model reselection or promotion",
+  "population": "Frozen train + calibration + validation; final test excluded",
+  "n_development": 32940,
+  "removed_duplicate_profiles": 10,
+  "development_max_source_row": 32949,
+  "first_test_source_row": 32950,
+  "final_test_rows_read": 0,
+  "final_test_labels_used": false,
+  "splits_sha256": "d7c9c98adc05fa6d7b0ab12b4405e1b8f81ee341198773bd2a0c3af213e153ac",
+  "cv": "StratifiedKFold",
+  "n_splits": 5,
+  "shuffle": true,
+  "random_state": 42,
+  "fixed_models": [
+    "logreg_C1",
+    "rf_depth8"
+  ],
+  "fits": 40,
+  "preprocessing": "Fitted independently inside each training fold; shared validation folds for all scenarios",
+  "duplicates": "Identical full predictor profiles removed before splitting, first row retained; no client identifier available",
+  "dispersion": "Sample standard deviation across five folds, not a confidence interval",
+  "limitations": [
+    "Not an independent confirmation: development data already used in the original study",
+    "Mixes periods and cannot establish future temporal generalization",
+    "Different population from original CV (first 60% only): score differences are not solely a split-method effect",
+    "S1 includes duration and is a leakage diagnostic, never deployable before calling",
+    "No threshold tuning, final-test rescoring or serving-artifact replacement"
+  ]
+}
