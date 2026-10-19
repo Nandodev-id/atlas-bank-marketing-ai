@@ -31,3 +31,7 @@ Malgré le retrait des variables socio-démographiques, des écarts importants s
 ## AI Act
 
 Ne pas qualifier automatiquement tout système bancaire de « haut risque ». La finalité précise, le contexte d'utilisation et les dispositions applicables doivent être analysés. Ce projet de marketing n'est pas présenté comme une évaluation de solvabilité. Nous ne certifions aucune conformité AI Act ; la qualification et les obligations exactes restent une responsabilité de conformité avant usage réel.
+
+## Décision opérationnelle — revue du 19 octobre 2026
+
+Le taux de sélection de 98,44 % des plus de 60 ans et leur FPR de 97,08 % sont calculés avant le filtre d'abstention, qui rejette tout le test. La décision reste le blocage de toute campagne fondée sur ce candidat. Les responsables, contrôles et conditions de réexamen sont précisés dans `DECISION_EQUITE.md` et intégrés à la section 6.4 du notebook ; la section 6.5 reprend la synthèse réglementaire et ses sources primaires.

@@ -103,6 +103,16 @@ python scripts/check_release.py --production
 
 Les tests HTTP utilisent FastAPI TestClient ; ceux de l’interface utilisent Streamlit AppTest. Ils ne remplacent pas un test réseau sous charge. La CI exécute les tests et compile le code. Le workflow candidat applique les contrôles avant une éventuelle promotion.
 
+## Comparaison complémentaire des scénarios
+
+La section **5.4 bis** du notebook compare S1–S4 avec LogReg et forêt sur cinq folds stratifiés communs, en excluant le test final. Cette analyse exploratoire a été ajoutée après l’évaluation initiale. Elle ne remplace pas la validation temporelle et ne modifie pas le modèle servi.
+
+```bash
+python -m bank_marketing.modeling.sensitivity --output runtime/sensitivity-reproduction
+```
+
+Résultats figés dans `reports/sensitivity/` : pour la forêt, AUC S2 = 0,685, S3 = 0,687 et S4 = 0,676. Les sections **6.4–6.5** explicitent la décision d’équité et la synthèse réglementaire.
+
 ## Résultats et limites
 
 Le candidat S4 utilise huit variables et une forêt de 100 arbres, profondeur 8, avec un seuil de 0,05. Sur le test temporel final, **avant abstention** : ROC-AUC 0,694 ; AP 0,443 ; précision 40,31 % ; rappel 88,98 %.

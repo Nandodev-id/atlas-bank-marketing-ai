@@ -338,7 +338,7 @@ md(
 
 **Precision@20 % et lift** donnent une lecture à capacité d'appels fixe, distincte du seuil F1. **Brier** et courbe de calibration confrontent probabilités et fréquences. Un seuil de 0,05 ne signifie pas une confiance de 95 % : il signifie simplement que la règle commence à classer positif à 5 % de probabilité estimée.
 
-La CV est croissante dans l'ordre des observations avec un gap de 100 lignes. Faute de dates complètes, les fenêtres n'ont pas nécessairement la même durée. Un benchmark aléatoire stratifié sur le train seulement sert de sensibilité ; il n'est pas la preuve principale.""",
+La CV est croissante dans l'ordre des observations avec un gap de 100 lignes. Faute de dates complètes, les fenêtres n'ont pas nécessairement la même durée. Le premier benchmark aléatoire sur le train seulement est conservé pour traçabilité. La section 5.4 bis ajoute une comparaison S1–S4 sur le développement ; elle ne remplace pas l’évaluation temporelle.""",
 )
 code(
     32,
@@ -391,7 +391,7 @@ md(
     37,
     f"""### 5.7 Synthèse modélisation
 
-Candidat retenu par la règle : **{s['scenario']} / {s['model']}**, huit variables, seuil **{s['threshold']:.2f}**, sans calibration conservée. Sur test, AP **{f['average_precision']:.3f}** contre une prévalence **{f['prevalence']:.3f}**, ROC-AUC **{f['roc_auc']:.3f}**, F1 **{f['f1']:.3f}**. Le lift top 20 % est **{f['lift_at_20']:.2f}×**.
+Candidat minimisé retenu par la règle, sans supériorité prédictive démontrée : **{s['scenario']} / {s['model']}**, huit variables, seuil **{s['threshold']:.2f}**, sans calibration conservée. Sur test, AP **{f['average_precision']:.3f}** contre une prévalence **{f['prevalence']:.3f}**, ROC-AUC **{f['roc_auc']:.3f}**, F1 **{f['f1']:.3f}**. Le lift top 20 % est **{f['lift_at_20']:.2f}×**.
 
 Mais sur validation, AP **{s['validation']['average_precision']:.3f}**, sous la prévalence **{s['validation']['prevalence']:.3f}**, et ROC-AUC **{s['validation']['roc_auc']:.3f}** : la performance n'est pas stable. Le seuil positif couvre {f['selection_rate']:.1%} du test, très différent du budget top 20 %. Aucun score final favorable n'efface ce défaut de validation.
 """,
@@ -651,6 +651,8 @@ journal = nbf.v4.new_notebook(
 
 ## 19 octobre 2026
 
+Analyse complémentaire après retour : 40 fits stratifiés S1–S4 sur le développement uniquement, cinq folds communs, test final exclu. Résultats archivés dans `reports/sensitivity/`. Clarification du choix de S4 et du seuil, décision d’équité explicite et synthèse RGPD/AI Act intégrée. Aucun nouvel ajustement du modèle servi ni du test final.
+
 Réorganisation du livrable : README technique condensé, canevas officiel séparé, point d’entrée API standard et notes de préparation déplacées hors dépôt. Comparaison des structures des dépôts de 3ti3nne et nawellepolin ; aucun code ou résultat de ces projets repris.
 """
     )]
@@ -672,6 +674,30 @@ print('Aucun déploiement automatique :', production['recommendation'])
 """
     ),
 )
+# Complementary review: preserve the original protocol and frozen test evidence.
+comparison_index = next(i for i, cell in enumerate(n.cells)
+                        if cell.cell_type == "markdown" and cell.source.startswith("### 5.5"))
+n.cells[comparison_index:comparison_index] = [
+    nbf.v4.new_markdown_cell((ROOT / "docs/ANALYSE_COMPLEMENTAIRE.md").read_text()),
+    nbf.v4.new_code_cell("""# Frozen complementary experiment: 40 fits, development data only.
+sensitivity = pd.read_csv(REPORTS / 'sensitivity/comparison.csv')
+sensitivity_protocol = read_report('sensitivity/protocol.json')
+assert sensitivity_protocol['final_test_rows_read'] == 0
+assert sensitivity_protocol['development_max_source_row'] < sensitivity_protocol['first_test_source_row']
+print('Population :', sensitivity_protocol['population'])
+print('N =', sensitivity_protocol['n_development'], '| fits =', sensitivity_protocol['fits'])
+print('Moyennes et écarts-types entre folds ; pas des intervalles de confiance.')
+display(sensitivity.round(4))
+figure('stratified_comparison.png')
+display(pd.read_csv(REPORTS / 'sensitivity/development_macro_ranges.csv'))
+"""),
+]
+equity_index = next(i for i, cell in enumerate(n.cells)
+                   if cell.cell_type == "markdown" and cell.source.startswith("## 7."))
+n.cells[equity_index:equity_index] = [
+    nbf.v4.new_markdown_cell((ROOT / "docs/DECISION_EQUITE.md").read_text()),
+    nbf.v4.new_markdown_cell((ROOT / "docs/SYNTHESE_REGLEMENTAIRE.md").read_text()),
+]
 n.metadata.kernelspec = {"display_name": "Atlas Python", "language": "python", "name": "atlas"}
 nbf.validate(n)
 nbf.write(n, ROOT / "notebooks/certification.ipynb")
